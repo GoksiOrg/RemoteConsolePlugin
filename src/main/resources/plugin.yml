@@ -1,0 +1,7 @@
+name: RemoteConsole
+version: '${project.version}'
+main: tech.goksi.remoteconsole.RemoteConsole
+prefix: RConsole
+authors: [ Goksi ]
+description: Spigot backend for minecraft remote console
+website: https://goksi.tech
