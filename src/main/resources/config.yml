@@ -1,0 +1,8 @@
+# Everything under this section should not be touch by end user, generate it using command from web app
+ConsoleConfiguration:
+  UUID: ""
+  Host: ""
+  Port: 0
+  RemoteConsoleURL: ""
+  Secret: ""
+  ServerID: ""
