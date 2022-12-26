@@ -1,13 +1,18 @@
 package tech.goksi.remoteconsole.api.models.events;
 
+import io.javalin.websocket.WsContext;
+
 import java.util.Collections;
 
-public class AuthEvent extends GenericEvent{
-    public AuthEvent(String name, String token) {
-        super(name, Collections.singletonList(token));
+public class AuthEvent extends WebsocketEvent {
+    private final String jwt;
+
+    public AuthEvent(String token, WsContext context) {
+        super("auth", Collections.singletonList(token), context);
+        this.jwt = (String) getData().get(0);
     }
 
     public String getJWToken() {
-        return (String) getData().get(0);
+        return jwt;
     }
 }
