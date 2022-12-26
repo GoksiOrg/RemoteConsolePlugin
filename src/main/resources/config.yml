@@ -1,7 +1,7 @@
 # Everything under this section should not be touch by end user, generate it using command from web app
 ConsoleConfiguration:
   UUID: ""
-  Host: ""
+  Host: "0.0.0.0"
   Port: 0
   RemoteConsoleURL: ""
   Secret: ""

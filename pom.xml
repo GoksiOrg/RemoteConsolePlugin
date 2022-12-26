@@ -6,7 +6,7 @@
 
     <groupId>tech.goksi</groupId>
     <artifactId>RemoteConsole</artifactId>
-    <version>v0.1</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
     <name>RemoteConsole</name>
@@ -41,6 +41,8 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <finalName>RemoteConsole.jar</finalName>
+                            <outputDirectory>D:\TestSrv\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -53,17 +55,6 @@
             </resource>
         </resources>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
