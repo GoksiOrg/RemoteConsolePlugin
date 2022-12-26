@@ -18,7 +18,10 @@ public final class RemoteConsole extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(RemoteConsole.class.getClassLoader());
         setupJavalin();
+        Thread.currentThread().setContextClassLoader(classLoader);
         tokenStore = new TokenStore();
         websocketHandler = new WebsocketHandler();
     }
@@ -45,6 +48,12 @@ public final class RemoteConsole extends JavaPlugin {
     }
 
     private void setupJavalin() {
+        /*TODO ako je port 0 ne pokrenuti webserver, nego cekati da se edituje config*/
+        int port = getConfig().getInt("ConsoleConfiguration.Port");
+        if(port == 0) {
+            getLogger().warning("Webserver didn't start, awaiting configuration command...");
+            return;
+        }
         javalinApp = Javalin.create(config -> {
             config.jsonMapper(new GsonMapper());
             config.defaultContentType = ContentType.JSON;
@@ -54,7 +63,7 @@ public final class RemoteConsole extends JavaPlugin {
                 pool.setName("RemoteConsolePool");
                 return new Server(pool);
             });
-        }).start(getConfig().getString("ConsoleConfiguration.Host"), getConfig().getInt("ConsoleConfiguration.Port"));
+        }).start(getConfig().getString("ConsoleConfiguration.Host"), port);
         new Routes();
     }
 }
