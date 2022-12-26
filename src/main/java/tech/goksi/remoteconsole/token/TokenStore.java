@@ -3,14 +3,14 @@ package tech.goksi.remoteconsole.token;
 import org.bukkit.Bukkit;
 import tech.goksi.remoteconsole.RemoteConsole;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TokenStore {
-    private final List<String> tokens;
+    private final Set<String> tokens;
 
     public TokenStore() {
-        tokens = new ArrayList<>();
+        tokens = new HashSet<>();
     }
 
     public boolean isUniqueToken(String token) {
