@@ -9,7 +9,7 @@ import tech.goksi.remoteconsole.api.Routes;
 import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.helpers.GsonMapper;
 import tech.goksi.remoteconsole.token.TokenStore;
-
+/*TODO make final name be just RemoteConsole.jar*/
 public final class RemoteConsole extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
@@ -28,7 +28,7 @@ public final class RemoteConsole extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        javalinApp.close();
     }
 
     public static RemoteConsole getInstance() {
@@ -48,7 +48,6 @@ public final class RemoteConsole extends JavaPlugin {
     }
 
     private void setupJavalin() {
-        /*TODO ako je port 0 ne pokrenuti webserver, nego cekati da se edituje config*/
         int port = getConfig().getInt("ConsoleConfiguration.Port");
         if(port == 0) {
             getLogger().warning("Webserver didn't start, awaiting configuration command...");
