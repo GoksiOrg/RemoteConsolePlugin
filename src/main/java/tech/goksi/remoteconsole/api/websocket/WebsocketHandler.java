@@ -12,7 +12,6 @@ import tech.goksi.remoteconsole.events.hooks.EventListener;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/*TODO auth event, after that add to observers*/
 public class WebsocketHandler {
     private final List<ConsoleUser> observers;
     private final Map<String, EventHandler> handlers;
