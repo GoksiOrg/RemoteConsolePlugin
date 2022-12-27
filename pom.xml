@@ -42,7 +42,6 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>RemoteConsole.jar</finalName>
-                            <outputDirectory>D:\TestSrv\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
