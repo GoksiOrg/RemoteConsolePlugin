@@ -41,12 +41,8 @@ jobs:
           cd target/
           CHECKSUM=`sha256sum RemoteConsole.jar`
           echo $CHECKSUM > ../checksum.txt
-          echo "checksum<<EOF" >> $GITHUB_ENV
-          echo "### SHA256 Checksum >> $GITHUB_ENV
-          echo "\`\`\`" >> $GITHUB_ENV
-          echo "$CHECKSUM" >> $GITHUB_ENV
-          echo "\`\`\`" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          message="### SHA256 Checksum\n \`\`\` $CHECKSUM \n \`\`\`"
+          echo "checksum<<EOF"$'\n'"$message"$'\n'EOF >> $GITHUB_OUTPUT
 
       - name: Create release
         uses: softprops/action-gh-release@v0.1.15
@@ -57,4 +53,4 @@ jobs:
           draft: true
           generate_release_notes: true
           append_body: true
-          body: ${{ env.checksum }}
+          body: ${{ steps.checksum.outputs.checksum }}
