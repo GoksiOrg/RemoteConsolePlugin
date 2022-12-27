@@ -41,14 +41,8 @@ jobs:
           cd target/
           CHECKSUM=`sha256sum RemoteConsole.jar`
           echo $CHECKSUM > ../checksum.txt
-          MESSAGE=$(cat << EOF
-          ### SHA256 checksum
-          `\`\`\
-          $CHECKSUM
-          `\`\`\
-          EOF
-          )
-          echo checksum=$MESSAGE > $GITHUB_OUTPUT
+          MESSAGE=$(echo testing stuff)
+          echo checksum=$MESSAGE >> $GITHUB_OUTPUT
 
       - name: Create release
         uses: softprops/action-gh-release@v0.1.15
