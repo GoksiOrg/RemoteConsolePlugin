@@ -6,7 +6,7 @@
 
     <groupId>tech.goksi</groupId>
     <artifactId>RemoteConsole</artifactId>
-    <version>0.1</version>
+    <version>canary</version>
     <packaging>jar</packaging>
 
     <name>RemoteConsole</name>
