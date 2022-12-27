@@ -37,16 +37,18 @@ jobs:
 
       - name: Generate SHA checksum
         id: checksum
-        run: |
+        run: | # EOF not working as delimiter
           cd target/
           CHECKSUM=`sha256sum RemoteConsole.jar`
           echo $CHECKSUM > ../checksum.txt
-          echo "checksum<<EOF" >> $GITHUB_OUTPUT
-          echo "### SHA256 checksum" >> $GITHUB_OUTPUT
-          echo "`\`\`\" >> $GITHUB_OUTPUT
-          echo "$CHECKSUM" >> $GITHUB_OUTPUT
-          echo "`\`\`\" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          MESSAGE=$(cat << EOF
+          ### SHA256 checksum
+          `\`\`\
+          $CHECKSUM
+          `\`\`\
+          EOF
+          )
+          echo checksum=$MESSAGE > $GITHUB_OUTPUT
 
       - name: Create release
         uses: softprops/action-gh-release@v0.1.15
