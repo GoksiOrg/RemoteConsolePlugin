@@ -21,7 +21,7 @@ jobs:
           distribution: temurin
           cache: 'maven'
 
-      - name: Download and run buildtools
+      - name: Download and run BuildTools
         run: |
           wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
           java -jar BuildTools.jar --rev 1.12.2

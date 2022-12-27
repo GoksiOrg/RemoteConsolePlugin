@@ -41,7 +41,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <finalName>RemoteConsole.jar</finalName>
+                            <finalName>RemoteConsole</finalName>
                         </configuration>
                     </execution>
                 </executions>
