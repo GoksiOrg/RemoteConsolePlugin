@@ -9,7 +9,6 @@ import tech.goksi.remoteconsole.api.Routes;
 import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.helpers.GsonMapper;
 import tech.goksi.remoteconsole.token.TokenStore;
-/*TODO make final name be just RemoteConsole.jar*/
 public final class RemoteConsole extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
