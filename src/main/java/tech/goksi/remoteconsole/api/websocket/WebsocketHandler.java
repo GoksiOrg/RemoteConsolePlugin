@@ -13,10 +13,14 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WebsocketHandler {
+    public static final Date STARTUP_TIME;
     private final List<ConsoleUser> observers;
     private final Map<String, EventHandler> handlers;
     private final List<EventListener> listeners;
 
+    static {
+        STARTUP_TIME = Calendar.getInstance().getTime();
+    }
 
     public WebsocketHandler() {
         observers = new CopyOnWriteArrayList<>();

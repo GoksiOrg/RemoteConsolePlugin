@@ -7,11 +7,11 @@ import tech.goksi.remoteconsole.api.exceptions.WebSocketException;
 import tech.goksi.remoteconsole.api.models.ConsoleUser;
 import tech.goksi.remoteconsole.api.models.events.AuthEvent;
 import tech.goksi.remoteconsole.api.models.events.CommandSendEvent;
+import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.events.hooks.ListenerAdapter;
 import tech.goksi.remoteconsole.token.JWTParser;
 
 public class Listener extends ListenerAdapter {
-    /*TODO token expiring, bukkit scheduler ig, and add token expired event*/
     @Override
     public void onAuthEvent(AuthEvent event) {
         DecodedJWT decodedJWT;
@@ -21,11 +21,16 @@ public class Listener extends ListenerAdapter {
             event.getContext().send(new WebSocketException("TokenException", "Provided JWT is invalid"));
             return;
         }
-        String username = decodedJWT.getClaim("user").asString();
+        if (decodedJWT.getIssuedAt().before(WebsocketHandler.STARTUP_TIME)) {
+            event.getContext().send(new WebSocketException("TokenException", "Mismatched JWT time"));
+            return;
+        }
+        ConsoleUser consoleUser = new ConsoleUser(decodedJWT, event.getContext());
         RemoteConsole.getInstance()
                 .getWebsocketHandler()
-                .addObserver(new ConsoleUser(username, event.getContext()));
+                .addObserver(consoleUser);
         event.getContext().send("{\"event\": \"AuthSuccess\"}");
+        consoleUser.runCheck();
     }
 
     @Override
