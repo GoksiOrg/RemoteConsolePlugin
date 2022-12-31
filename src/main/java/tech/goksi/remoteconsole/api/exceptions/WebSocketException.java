@@ -1,7 +1,12 @@
 package tech.goksi.remoteconsole.api.exceptions;
 
+import com.google.gson.annotations.Expose;
+
+/*TODO probably make it throw*/
 public class WebSocketException {
+    @Expose
     private final String error;
+    @Expose
     private final String message;
 
     public WebSocketException(String error, String message) {

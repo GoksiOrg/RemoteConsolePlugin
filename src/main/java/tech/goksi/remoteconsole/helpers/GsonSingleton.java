@@ -1,6 +1,7 @@
 package tech.goksi.remoteconsole.helpers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class GsonSingleton {
     private static Gson gson;
@@ -9,7 +10,7 @@ public class GsonSingleton {
     }
 
     public static Gson getInstance() {
-        if (gson == null) gson = new Gson();
+        if (gson == null) gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson;
     }
 }
