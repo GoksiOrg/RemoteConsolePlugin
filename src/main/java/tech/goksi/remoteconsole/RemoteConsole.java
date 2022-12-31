@@ -9,6 +9,8 @@ import tech.goksi.remoteconsole.api.Routes;
 import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.helpers.GsonMapper;
 import tech.goksi.remoteconsole.token.TokenStore;
+import tech.goksi.remoteconsole.utility.versioncontrol.VersionControlUtility;
+
 public final class RemoteConsole extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
@@ -23,6 +25,7 @@ public final class RemoteConsole extends JavaPlugin {
         Thread.currentThread().setContextClassLoader(classLoader);
         tokenStore = new TokenStore();
         websocketHandler = new WebsocketHandler();
+        VersionControlUtility.checkVersion();
     }
 
     @Override
