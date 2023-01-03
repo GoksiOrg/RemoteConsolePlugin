@@ -38,6 +38,14 @@ public class WebsocketHandler {
         observers.removeIf(consoleUser -> consoleUser.getContext().equals(context));
     }
 
+    public void removeObserver(ConsoleUser consoleUser) {
+        observers.remove(consoleUser);
+    }
+
+    public ConsoleUser getObserver(WsContext context) {
+        return observers.stream().filter(consoleUser -> consoleUser.getContext().equals(context)).findFirst().orElse(null);
+    }
+
     public void send(GenericEvent event) {
         Iterator<ConsoleUser> iterator = observers.listIterator();
         while (iterator.hasNext()) {
