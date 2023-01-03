@@ -25,7 +25,12 @@ public class Listener extends ListenerAdapter {
             event.getContext().send(new WebSocketException("TokenException", "Mismatched JWT time"));
             return;
         }
-        ConsoleUser consoleUser = new ConsoleUser(decodedJWT, event.getContext());
+        ConsoleUser consoleUser = RemoteConsole.getInstance().getWebsocketHandler().getObserver(event.getContext());
+        if (consoleUser != null) {
+            consoleUser.setJwt(decodedJWT);
+            return;
+        }
+        consoleUser = new ConsoleUser(decodedJWT, event.getContext());
         RemoteConsole.getInstance()
                 .getWebsocketHandler()
                 .addObserver(consoleUser);
