@@ -7,6 +7,7 @@ import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
 import tech.goksi.remoteconsole.RemoteConsole;
 import tech.goksi.remoteconsole.api.exceptions.WebSocketException;
+import tech.goksi.remoteconsole.api.models.ConsoleUser;
 import tech.goksi.remoteconsole.events.handlers.EventHandler;
 import tech.goksi.remoteconsole.helpers.GsonSingleton;
 
@@ -34,7 +35,7 @@ public class WebsocketController {
             return;
         }
         JsonElement dataElement = eventObject.get("data");
-        if(dataElement == null || !dataElement.isJsonArray()) {
+        if (dataElement == null || !dataElement.isJsonArray()) {
             context.send(new WebSocketException("InvalidInput", "Invalid format, data field must be array and not null"));
             return;
         }
@@ -47,6 +48,10 @@ public class WebsocketController {
     }
 
     public static void onClose(WsContext context) {
-        plugin.getWebsocketHandler().removeObserver(context);
+        ConsoleUser observer = plugin.getWebsocketHandler().getObserver(context);
+        if (observer != null) {
+            observer.cancelCheck();
+            plugin.getWebsocketHandler().removeObserver(observer);
+        }
     }
 }
