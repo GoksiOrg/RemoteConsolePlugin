@@ -18,6 +18,15 @@
     </properties>
     <url>https://goksi.tech</url>
 
+    <profiles>
+        <profile>
+            <id>export-local</id>
+            <properties>
+                <jarLocation>D:\TestSrv\plugins</jarLocation>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -42,6 +51,7 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>RemoteConsole</finalName>
+                            <outputDirectory>${jarLocation}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
