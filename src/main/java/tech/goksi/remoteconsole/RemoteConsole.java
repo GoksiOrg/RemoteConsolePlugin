@@ -2,15 +2,17 @@ package tech.goksi.remoteconsole;
 
 import io.javalin.Javalin;
 import io.javalin.http.ContentType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import tech.goksi.remoteconsole.api.Routes;
 import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
+import tech.goksi.remoteconsole.events.ConsoleListener;
 import tech.goksi.remoteconsole.helpers.GsonMapper;
 import tech.goksi.remoteconsole.token.TokenStore;
 import tech.goksi.remoteconsole.utility.versioncontrol.VersionControlUtility;
-
 public final class RemoteConsole extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
@@ -25,6 +27,8 @@ public final class RemoteConsole extends JavaPlugin {
         Thread.currentThread().setContextClassLoader(classLoader);
         tokenStore = new TokenStore();
         websocketHandler = new WebsocketHandler();
+        Logger logger = (Logger) LogManager.getRootLogger();
+        logger.addFilter(new ConsoleListener());
         VersionControlUtility.checkVersion();
     }
 
