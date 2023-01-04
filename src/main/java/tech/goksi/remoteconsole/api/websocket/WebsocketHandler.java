@@ -8,6 +8,7 @@ import tech.goksi.remoteconsole.events.handlers.AuthHandler;
 import tech.goksi.remoteconsole.events.handlers.CommandSendHandler;
 import tech.goksi.remoteconsole.events.handlers.EventHandler;
 import tech.goksi.remoteconsole.events.hooks.EventListener;
+import tech.goksi.remoteconsole.helpers.WsAutomaticPing;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,6 +18,7 @@ public class WebsocketHandler {
     private final List<ConsoleUser> observers;
     private final Map<String, EventHandler> handlers;
     private final List<EventListener> listeners;
+    private final WsAutomaticPing automaticPingHandler;
 
     static {
         STARTUP_TIME = Calendar.getInstance().getTime();
@@ -28,18 +30,22 @@ public class WebsocketHandler {
         listeners = new ArrayList<>();
         setupHandlers();
         addListener(new Listener());
+        automaticPingHandler = new WsAutomaticPing();
     }
 
     public void addObserver(ConsoleUser observer) {
         observers.add(observer);
+        automaticPingHandler.enableAutomaticPings(observer.getContext());
     }
 
     public void removeObserver(WsContext context) {
         observers.removeIf(consoleUser -> consoleUser.getContext().equals(context));
+        automaticPingHandler.disableAutomaticPings(context);
     }
 
     public void removeObserver(ConsoleUser consoleUser) {
         observers.remove(consoleUser);
+        automaticPingHandler.disableAutomaticPings(consoleUser.getContext());
     }
 
     public ConsoleUser getObserver(WsContext context) {
