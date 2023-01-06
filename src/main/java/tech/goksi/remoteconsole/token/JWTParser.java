@@ -20,7 +20,7 @@ public class JWTParser {
         jwtVerifier = JWT.require(Algorithm.HMAC256(config.getString("ConsoleConfiguration.Secret")))
                 .withIssuer(config.getString("ConsoleConfiguration.RemoteConsoleURL"))
                 .withClaim("server_id", config.getString("ConsoleConfiguration.ServerID"))
-                .withClaimPresence("user")
+                .withClaimPresence("sub")
                 .withClaimPresence("unique_id")
                 .withClaimPresence("jti")
                 .withClaimPresence("iat")

@@ -20,7 +20,7 @@ public class ConsoleUser {
     public ConsoleUser(DecodedJWT jwt, WsContext context) {
         this.context = context;
         this.jwt = jwt;
-        this.name = jwt.getClaim("user").asString();
+        this.name = jwt.getSubject();
     }
 
     public String getName() {
