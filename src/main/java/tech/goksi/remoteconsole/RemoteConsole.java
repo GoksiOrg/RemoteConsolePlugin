@@ -13,6 +13,7 @@ import tech.goksi.remoteconsole.events.ConsoleListener;
 import tech.goksi.remoteconsole.helpers.GsonMapper;
 import tech.goksi.remoteconsole.token.TokenStore;
 import tech.goksi.remoteconsole.utility.versioncontrol.VersionControlUtility;
+/*TODO: cors, ssl*/
 public final class RemoteConsole extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
