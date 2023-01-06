@@ -9,6 +9,6 @@ public class ConversionUtility {
     }
 
     public static int millisToMinutes(long millis) {
-        return (int) (millis / 1000);
+        return (int) (millis / 60000);
     }
 }
