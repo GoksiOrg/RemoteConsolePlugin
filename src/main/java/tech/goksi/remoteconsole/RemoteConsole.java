@@ -8,11 +8,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import tech.goksi.remoteconsole.api.Routes;
+import tech.goksi.remoteconsole.api.exceptions.WebSocketException;
 import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.events.ConsoleListener;
 import tech.goksi.remoteconsole.helpers.GsonMapper;
 import tech.goksi.remoteconsole.token.TokenStore;
 import tech.goksi.remoteconsole.utility.versioncontrol.VersionControlUtility;
+
 /*TODO: cors, ssl*/
 public final class RemoteConsole extends JavaPlugin {
     private TokenStore tokenStore;
@@ -56,7 +58,7 @@ public final class RemoteConsole extends JavaPlugin {
 
     private void setupJavalin() {
         int port = getConfig().getInt("ConsoleConfiguration.Port");
-        if(port == 0) {
+        if (port == 0) {
             getLogger().warning("Webserver didn't start, awaiting configuration command...");
             return;
         }
@@ -70,6 +72,7 @@ public final class RemoteConsole extends JavaPlugin {
                 return new Server(pool);
             });
         }).start(getConfig().getString("ConsoleConfiguration.Host"), port);
+        javalinApp.wsException(WebSocketException.class, ((exception, ctx) -> ctx.send(exception)));
         new Routes();
     }
 }
