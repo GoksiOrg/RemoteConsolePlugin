@@ -1,7 +1,9 @@
 package tech.goksi.remoteconsole.api.models.events;
 
-public class TokenExpiredEvent extends GenericEvent{
+import java.util.Collections;
+
+public class TokenExpiredEvent extends GenericEvent {
     public TokenExpiredEvent() {
-        super("token_expired", null);
+        super("token_expired", Collections.emptyList());
     }
 }
