@@ -1,15 +1,13 @@
 package tech.goksi.remoteconsole.api.websocket.controller;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
 import tech.goksi.remoteconsole.RemoteConsole;
-import tech.goksi.remoteconsole.api.exceptions.WebSocketException;
+import tech.goksi.remoteconsole.api.exceptions.WsValidationException;
 import tech.goksi.remoteconsole.api.models.ConsoleUser;
 import tech.goksi.remoteconsole.events.handlers.EventHandler;
-import tech.goksi.remoteconsole.helpers.GsonSingleton;
+import tech.goksi.remoteconsole.helpers.EventValidator;
 
 public class WebsocketController {
     private static final RemoteConsole plugin = RemoteConsole.getInstance();
@@ -22,27 +20,10 @@ public class WebsocketController {
     }
 
     public static void onMessage(WsContext context) {
-        JsonObject eventObject;
-        try {
-            eventObject = GsonSingleton.getInstance().fromJson(((WsMessageContext) context).message(), JsonObject.class);
-        } catch (JsonSyntaxException exception) {
-            context.send(new WebSocketException("InvalidInput", "Provided input is not an valid json string"));
-            return;
-        }
-        JsonElement eventNameElement = eventObject.get("event");
-        if (eventNameElement == null) {
-            context.send(new WebSocketException("InvalidInput", "Invalid format, event field missing"));
-            return;
-        }
-        JsonElement dataElement = eventObject.get("data");
-        if (dataElement == null || !dataElement.isJsonArray()) {
-            context.send(new WebSocketException("InvalidInput", "Invalid format, data field must be array and not null"));
-            return;
-        }
-        EventHandler handler = plugin.getWebsocketHandler().getHandlers().get(eventNameElement.getAsString());
+        JsonObject eventObject = EventValidator.validate(((WsMessageContext) context).message());
+        EventHandler handler = plugin.getWebsocketHandler().getHandlers().get(eventObject.get("event").getAsString());
         if (handler == null) {
-            context.send(new WebSocketException("InvalidInput", "Unknown event \"%s\"", eventNameElement.getAsString()));
-            return;
+            throw new WsValidationException("Unknown event %s", eventObject.get("event").getAsString());
         }
         handler.handle(eventObject, context);
     }
