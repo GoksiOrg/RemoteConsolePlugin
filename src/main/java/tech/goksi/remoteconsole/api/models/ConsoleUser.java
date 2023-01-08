@@ -5,12 +5,13 @@ import io.javalin.websocket.WsContext;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import tech.goksi.remoteconsole.RemoteConsole;
+import tech.goksi.remoteconsole.api.exceptions.WsTokenException;
 import tech.goksi.remoteconsole.api.models.events.TokenExpiredEvent;
 import tech.goksi.remoteconsole.api.models.events.TokenExpiringEvent;
 import tech.goksi.remoteconsole.utility.ConversionUtility;
 
 import java.util.Objects;
-/*TODO add check for name again after setting new jwt*/
+
 public class ConsoleUser {
     private final String name;
     private final WsContext context;
@@ -51,6 +52,9 @@ public class ConsoleUser {
     }
 
     public void setJwt(DecodedJWT jwt) {
+        if (!name.equals(jwt.getSubject())) {
+            throw new WsTokenException("Provided JWT doesn't match current session");
+        }
         this.jwt = jwt;
         cancelCheck();
         runCheck(); // make it wait 25 minutes again
