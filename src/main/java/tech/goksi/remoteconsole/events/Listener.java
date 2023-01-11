@@ -11,7 +11,6 @@ import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.events.hooks.ListenerAdapter;
 import tech.goksi.remoteconsole.token.JWTParser;
 
-/*TODO takodje jwt exception*/
 public class Listener extends ListenerAdapter {
     @Override
     public void onAuthEvent(AuthEvent event) {
