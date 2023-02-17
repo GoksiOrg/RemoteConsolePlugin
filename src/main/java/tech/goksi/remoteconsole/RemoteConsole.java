@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import tech.goksi.remoteconsole.api.Routes;
+import tech.goksi.remoteconsole.api.exceptions.RestException;
 import tech.goksi.remoteconsole.api.exceptions.WebSocketException;
 import tech.goksi.remoteconsole.api.websocket.WebsocketHandler;
 import tech.goksi.remoteconsole.events.ConsoleListener;
@@ -72,7 +73,8 @@ public final class RemoteConsole extends JavaPlugin {
                 return new Server(pool);
             });
         }).start(getConfig().getString("ConsoleConfiguration.Host"), port);
-        javalinApp.wsException(WebSocketException.class, ((exception, ctx) -> ctx.send(exception)));
+        javalinApp.wsException(WebSocketException.class, (exception, ctx) -> ctx.send(exception));
+        javalinApp.exception(RestException.class, ((exception, ctx) -> ctx.json(exception).status(exception.getStatus())));
         new Routes();
     }
 }
