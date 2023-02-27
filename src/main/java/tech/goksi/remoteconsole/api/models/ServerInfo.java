@@ -1,6 +1,7 @@
 package tech.goksi.remoteconsole.api.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.sun.management.OperatingSystemMXBean;
 import org.bukkit.Bukkit;
 import tech.goksi.remoteconsole.RemoteConsole;
@@ -17,16 +18,22 @@ import java.util.logging.Level;
 public class ServerInfo {
     private static String SERVER_ICON;
     @Expose
+    @SerializedName("total_ram")
     private final float totalRam;
     @Expose
+    @SerializedName("used_ram")
     private final float usedRam;
     @Expose
+    @SerializedName("cpu_usage")
     private final double cpuUsage;
     @Expose
+    @SerializedName("online_players")
     private final int onlinePlayers;
     @Expose
+    @SerializedName("max_players")
     private final int maxPlayers;
     @Expose
+    @SerializedName("server_icon")
     private final String serverIcon;
 
     public ServerInfo() {

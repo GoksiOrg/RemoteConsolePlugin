@@ -26,7 +26,7 @@ public class Routes {
                 ws.onMessage(WebsocketController::onMessage);
                 ws.onClose(WebsocketController::onClose);
             });
-            get("system", context -> {
+            get("resources", context -> {
                 context.json(new ServerInfo());
             });
         }));
