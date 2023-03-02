@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.goksi</groupId>
-    <artifactId>RemoteConsole</artifactId>
+    <artifactId>TeddyControl</artifactId>
     <version>canary</version>
     <packaging>jar</packaging>
 
-    <name>RemoteConsole</name>
+    <name>TeddyControl</name>
 
     <description>Spigot backend for minecraft remote console</description>
     <properties>
@@ -35,7 +35,7 @@
                                 <fileset>
                                     <directory>${localDir}</directory>
                                     <includes>
-                                        <include>RemoteConsole.jar</include>
+                                        <include>TeddyControl.jar</include>
                                     </includes>
                                 </fileset>
                             </filesets>
@@ -69,7 +69,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <finalName>RemoteConsole</finalName>
+                            <finalName>TeddyControl</finalName>
                             <outputDirectory>${jarLocation}</outputDirectory>
                         </configuration>
                     </execution>

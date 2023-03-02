@@ -1,2 +1,3 @@
-# RemoteConsolePlugin
+# TeddyControl
+
 Under development

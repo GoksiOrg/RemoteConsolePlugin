@@ -1,7 +1,7 @@
-name: RemoteConsole
+name: TabbyControl
 version: '${project.version}'
-main: tech.goksi.remoteconsole.RemoteConsole
-prefix: RConsole
+main: tech.goksi.tabbycontrol.TabbyControl
+prefix: Tabby
 author: Goksi
 description: Spigot backend for minecraft remote console
 website: https://goksi.tech

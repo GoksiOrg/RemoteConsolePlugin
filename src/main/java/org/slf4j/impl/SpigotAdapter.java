@@ -2,7 +2,7 @@ package org.slf4j.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
-import tech.goksi.remoteconsole.RemoteConsole;
+import tech.goksi.tabbycontrol.TabbyControl;
 
 import java.util.logging.Level;
 
@@ -12,7 +12,7 @@ public class SpigotAdapter implements Logger {
 
     public SpigotAdapter(String name) {
         this.name = name;
-        this.logger = RemoteConsole.getInstance().getLogger();
+        this.logger = TabbyControl.getInstance().getLogger();
     }
 
     private String format(String msg, Object... objects) {

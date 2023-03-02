@@ -36,9 +36,9 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Generate SHA checksum
-        run: | 
+        run: |
           cd target/
-          CHECKSUM=`sha256sum RemoteConsole.jar`
+          CHECKSUM=`sha256sum TeddyControl.jar`
           cd ..
           echo $CHECKSUM > checksum.txt
           echo -e "### SHA256 Checksum\n\`\`\`\n$CHECKSUM\n\`\`\`" >> checksum_md.txt
@@ -47,7 +47,7 @@ jobs:
         uses: softprops/action-gh-release@v0.1.15
         with:
           files: |
-            target/RemoteConsole.jar
+            target/TeddyControl.jar
             checksum.txt
           draft: true
           generate_release_notes: true
