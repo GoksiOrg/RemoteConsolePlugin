@@ -5,7 +5,11 @@ public class ConversionUtility {
     }
 
     public static long minutesToTicks(int minutes) {
-        return (long) minutes * 60 * 20;
+        return (long) minutes * secondsToTicks(60);
+    }
+
+    public static long secondsToTicks(int seconds) {
+        return (long) seconds * 20;
     }
 
     public static int millisToMinutes(long millis) {
