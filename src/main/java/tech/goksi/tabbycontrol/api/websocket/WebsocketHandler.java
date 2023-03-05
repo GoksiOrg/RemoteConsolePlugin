@@ -3,6 +3,7 @@ package tech.goksi.tabbycontrol.api.websocket;
 import io.javalin.websocket.WsContext;
 import tech.goksi.tabbycontrol.api.models.ConsoleUser;
 import tech.goksi.tabbycontrol.api.models.events.GenericEvent;
+import tech.goksi.tabbycontrol.api.rest.controller.ResourceController;
 import tech.goksi.tabbycontrol.events.Listener;
 import tech.goksi.tabbycontrol.events.handlers.AuthHandler;
 import tech.goksi.tabbycontrol.events.handlers.CommandSendHandler;
@@ -31,6 +32,7 @@ public class WebsocketHandler {
         setupHandlers();
         addListener(new Listener());
         automaticPingHandler = new WsAutomaticPing();
+        ResourceController.initWebsocket(this);
     }
 
     public void addObserver(ConsoleUser observer) {

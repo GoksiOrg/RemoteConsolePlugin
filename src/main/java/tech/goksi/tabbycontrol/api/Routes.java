@@ -5,7 +5,7 @@ import io.javalin.core.util.Header;
 import io.javalin.http.Context;
 import tech.goksi.tabbycontrol.TabbyControl;
 import tech.goksi.tabbycontrol.api.exceptions.UnauthorizedException;
-import tech.goksi.tabbycontrol.api.models.ServerInfo;
+import tech.goksi.tabbycontrol.api.rest.controller.ResourceController;
 import tech.goksi.tabbycontrol.api.websocket.controller.WebsocketController;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -26,9 +26,7 @@ public class Routes {
                 ws.onMessage(WebsocketController::onMessage);
                 ws.onClose(WebsocketController::onClose);
             });
-            get("resources", context -> {
-                context.json(new ServerInfo());
-            });
+            get("resources", ResourceController::get);
         }));
     }
 
