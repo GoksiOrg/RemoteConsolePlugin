@@ -38,7 +38,7 @@ public final class TabbyControl extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        javalinApp.close();
+        if (javalinApp != null) javalinApp.close();
     }
 
     public static TabbyControl getInstance() {
