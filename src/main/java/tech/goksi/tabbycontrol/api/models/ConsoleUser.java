@@ -32,6 +32,7 @@ public class ConsoleUser {
         return context;
     }
 
+    /*TODO: probably make one task for all users*/
     public void runCheck() {
         checkerTask = Bukkit.getScheduler().runTaskTimerAsynchronously(TabbyControl.getInstance(), () -> {
             long difference = jwt.getExpiresAt().getTime() - System.currentTimeMillis();

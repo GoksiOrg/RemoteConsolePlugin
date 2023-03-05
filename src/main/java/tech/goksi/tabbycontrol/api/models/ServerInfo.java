@@ -72,7 +72,7 @@ public class ServerInfo {
         return usedRam;
     }
 
-    public double getMaxCpuUsage() {
+    public double getCpuUsage() {
         return cpuUsage;
     }
 
