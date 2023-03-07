@@ -4,6 +4,6 @@ import java.util.Collections;
 
 public class TokenExpiredEvent extends GenericEvent {
     public TokenExpiredEvent() {
-        super("token_expired", Collections.emptyList());
+        super("token_expired", Collections.emptyMap());
     }
 }

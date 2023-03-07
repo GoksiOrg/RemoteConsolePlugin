@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.sun.management.OperatingSystemMXBean;
 import org.bukkit.Bukkit;
 import tech.goksi.tabbycontrol.TabbyControl;
+import tech.goksi.tabbycontrol.api.models.abs.EventModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,9 +14,12 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.Base64;
+import java.util.Map;
 import java.util.logging.Level;
 
-public class ServerInfo {
+import static tech.goksi.tabbycontrol.utility.CommonUtility.mapOf;
+
+public class ServerInfo implements EventModel {
     private static String SERVER_ICON;
     @Expose
     @SerializedName("total_ram")
@@ -86,5 +90,16 @@ public class ServerInfo {
 
     public String getServerIcon() {
         return serverIcon;
+    }
+
+    @Override
+    public Map<String, Object> toEventMap() {
+        return mapOf(
+                "total_ram", totalRam,
+                "used_ram", usedRam,
+                "cpu_usage", cpuUsage,
+                "online_players", onlinePlayers,
+                "max_players", maxPlayers
+        );
     }
 }

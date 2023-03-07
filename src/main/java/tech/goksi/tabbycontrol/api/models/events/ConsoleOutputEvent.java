@@ -3,47 +3,17 @@ package tech.goksi.tabbycontrol.api.models.events;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.logging.log4j.core.LogEvent;
 
-import java.util.Arrays;
+import static tech.goksi.tabbycontrol.utility.CommonUtility.mapOf;
 
 public class ConsoleOutputEvent extends GenericEvent {
-    private final long timestamp;
-    private final String message;
-    private final String logLevel;
-    private final String loggerName;
-    private final String stackTrace;
 
     public ConsoleOutputEvent(LogEvent logEvent) {
-        super("console_output", Arrays.asList(
-                logEvent.getTimeMillis(),
-                logEvent.getLevel().toString(),
-                logEvent.getLoggerName(),
-                logEvent.getMessage().getFormattedMessage(),
-                logEvent.getThrown() == null ? null : ExceptionUtils.getStackTrace(logEvent.getThrown())
+        super("console_output", mapOf(
+                "timestamp", logEvent.getTimeMillis(),
+                "log_level", logEvent.getLevel().toString(),
+                "logger_name", logEvent.getLoggerName(),
+                "message", logEvent.getMessage().getFormattedMessage(),
+                "stacktrace", logEvent.getThrown() == null ? null : ExceptionUtils.getStackTrace(logEvent.getThrown())
         ));
-        this.timestamp = (long) getData().get(0);
-        this.logLevel = (String) getData().get(1);
-        this.loggerName = (String) getData().get(2);
-        this.message = (String) getData().get(3);
-        this.stackTrace = (String) getData().get(4);
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getLogLevel() {
-        return logLevel;
-    }
-
-    public String getLoggerName() {
-        return loggerName;
-    }
-
-    public String getStackTrace() {
-        return stackTrace;
     }
 }

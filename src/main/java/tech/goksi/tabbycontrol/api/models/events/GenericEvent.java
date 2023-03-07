@@ -1,25 +1,30 @@
 package tech.goksi.tabbycontrol.api.models.events;
 
 import com.google.gson.annotations.Expose;
+import tech.goksi.tabbycontrol.api.models.abs.EventModel;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class GenericEvent {
     @Expose
     private final String event;
     @Expose
-    private final List<Object> data;
+    private final Map<String, Object> data;
 
-    public GenericEvent(String name, List<Object> data) {
+    public GenericEvent(String name, Map<String, Object> data) {
         this.event = name;
         this.data = data;
+    }
+
+    public GenericEvent(String name, EventModel model) {
+        this(name, model.toEventMap());
     }
 
     public String getName() {
         return event;
     }
 
-    public List<Object> getData() {
+    public Map<String, Object> getData() {
         return data;
     }
 }
