@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.goksi</groupId>
-    <artifactId>TeddyControl</artifactId>
+    <artifactId>TabbyControl</artifactId>
     <version>canary</version>
     <packaging>jar</packaging>
 
-    <name>TeddyControl</name>
+    <name>TabbyControl</name>
 
     <description>Spigot backend for minecraft remote console</description>
     <properties>
@@ -21,7 +21,7 @@
 
     <profiles>
         <profile>
-            <id>export-local</id>
+            <id>dev</id>
             <properties>
                 <jarLocation>${localDir}</jarLocation>
             </properties>
@@ -35,7 +35,7 @@
                                 <fileset>
                                     <directory>${localDir}</directory>
                                     <includes>
-                                        <include>TeddyControl.jar</include>
+                                        <include>TabbyControl.jar</include>
                                     </includes>
                                 </fileset>
                             </filesets>
@@ -69,7 +69,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <finalName>TeddyControl</finalName>
+                            <finalName>TabbyControl</finalName>
                             <outputDirectory>${jarLocation}</outputDirectory>
                         </configuration>
                     </execution>

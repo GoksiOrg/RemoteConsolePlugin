@@ -4,9 +4,9 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import tech.goksi.tabbycontrol.TabbyControl;
 import tech.goksi.tabbycontrol.api.exceptions.WsTokenException;
-import tech.goksi.tabbycontrol.api.models.ConsoleUser;
+import tech.goksi.tabbycontrol.api.models.TabbyUser;
 import tech.goksi.tabbycontrol.api.models.events.AuthEvent;
-import tech.goksi.tabbycontrol.api.models.events.CommandSendEvent;
+import tech.goksi.tabbycontrol.api.models.events.CommandReceiveEvent;
 import tech.goksi.tabbycontrol.api.websocket.WebsocketHandler;
 import tech.goksi.tabbycontrol.events.hooks.ListenerAdapter;
 import tech.goksi.tabbycontrol.token.JWTParser;
@@ -22,22 +22,22 @@ public class Listener extends ListenerAdapter {
         }
         if (decodedJWT.getIssuedAt().before(WebsocketHandler.STARTUP_TIME))
             throw new WsTokenException("Mismatched JWT time");
-        ConsoleUser consoleUser = TabbyControl.getInstance().getWebsocketHandler().getObserver(event.getContext());
-        if (consoleUser != null) {
-            consoleUser.setJwt(decodedJWT);
+        TabbyUser tabbyUser = TabbyControl.getInstance().getWebsocketHandler().getObserver(event.getContext());
+        if (tabbyUser != null) {
+            tabbyUser.setJwt(decodedJWT);
             return;
         }
-        consoleUser = new ConsoleUser(decodedJWT, event.getContext());
+        tabbyUser = new TabbyUser(decodedJWT, event.getContext());
         TabbyControl.getInstance()
                 .getWebsocketHandler()
-                .addObserver(consoleUser);
+                .addObserver(tabbyUser);
         /*would like to send anonymous instance of GenericEvent here, but unfortunately gson doesn't support that*/
         event.getContext().send("{\"event\": \"auth_success\", \"data\": []}");
-        consoleUser.runCheck();
+        tabbyUser.runCheck();
     }
 
     @Override
-    public void onCommandSendEvent(CommandSendEvent event) {
+    public void onCommandSendEvent(CommandReceiveEvent event) {
         System.out.println(event.getCommand());
     }
 }

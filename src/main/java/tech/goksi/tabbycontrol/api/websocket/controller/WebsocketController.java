@@ -5,7 +5,7 @@ import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
 import tech.goksi.tabbycontrol.TabbyControl;
 import tech.goksi.tabbycontrol.api.exceptions.WsValidationException;
-import tech.goksi.tabbycontrol.api.models.ConsoleUser;
+import tech.goksi.tabbycontrol.api.models.TabbyUser;
 import tech.goksi.tabbycontrol.events.handlers.EventHandler;
 import tech.goksi.tabbycontrol.helpers.EventValidator;
 
@@ -29,7 +29,7 @@ public class WebsocketController {
     }
 
     public static void onClose(WsContext context) {
-        ConsoleUser observer = plugin.getWebsocketHandler().getObserver(context);
+        TabbyUser observer = plugin.getWebsocketHandler().getObserver(context);
         if (observer != null) {
             observer.cancelCheck();
             plugin.getWebsocketHandler().removeObserver(observer);

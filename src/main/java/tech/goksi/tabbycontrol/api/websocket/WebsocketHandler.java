@@ -1,7 +1,7 @@
 package tech.goksi.tabbycontrol.api.websocket;
 
 import io.javalin.websocket.WsContext;
-import tech.goksi.tabbycontrol.api.models.ConsoleUser;
+import tech.goksi.tabbycontrol.api.models.TabbyUser;
 import tech.goksi.tabbycontrol.api.models.events.GenericEvent;
 import tech.goksi.tabbycontrol.api.rest.controller.ResourceController;
 import tech.goksi.tabbycontrol.events.Listener;
@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WebsocketHandler {
     public static final Date STARTUP_TIME;
-    private final List<ConsoleUser> observers;
+    private final List<TabbyUser> observers;
     private final Map<String, EventHandler> handlers;
     private final List<EventListener> listeners;
     private final WsAutomaticPing automaticPingHandler;
@@ -35,31 +35,31 @@ public class WebsocketHandler {
         ResourceController.initWebsocket(this);
     }
 
-    public void addObserver(ConsoleUser observer) {
+    public void addObserver(TabbyUser observer) {
         observers.add(observer);
         automaticPingHandler.enableAutomaticPings(observer.getContext());
     }
 
     public void removeObserver(WsContext context) {
-        observers.removeIf(consoleUser -> consoleUser.getContext().equals(context));
+        observers.removeIf(tabbyUser -> tabbyUser.getContext().equals(context));
         automaticPingHandler.disableAutomaticPings(context);
     }
 
-    public void removeObserver(ConsoleUser consoleUser) {
-        observers.remove(consoleUser);
-        automaticPingHandler.disableAutomaticPings(consoleUser.getContext());
+    public void removeObserver(TabbyUser tabbyUser) {
+        observers.remove(tabbyUser);
+        automaticPingHandler.disableAutomaticPings(tabbyUser.getContext());
     }
 
-    public ConsoleUser getObserver(WsContext context) {
-        return observers.stream().filter(consoleUser -> consoleUser.getContext().equals(context)).findFirst().orElse(null);
+    public TabbyUser getObserver(WsContext context) {
+        return observers.stream().filter(tabbyUser -> tabbyUser.getContext().equals(context)).findFirst().orElse(null);
     }
 
     public void send(GenericEvent event) {
-        Iterator<ConsoleUser> iterator = observers.listIterator();
+        Iterator<TabbyUser> iterator = observers.listIterator();
         while (iterator.hasNext()) {
-            ConsoleUser consoleUser = iterator.next();
-            if (consoleUser.getContext().session.isOpen()) {
-                consoleUser.getContext().send(event);
+            TabbyUser tabbyUser = iterator.next();
+            if (tabbyUser.getContext().session.isOpen()) {
+                tabbyUser.getContext().send(event);
             } else {
                 iterator.remove();
             }

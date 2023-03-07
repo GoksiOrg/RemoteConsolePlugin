@@ -12,13 +12,13 @@ import tech.goksi.tabbycontrol.utility.ConversionUtility;
 
 import java.util.Objects;
 
-public class ConsoleUser {
+public class TabbyUser {
     private final String name;
     private final WsContext context;
     private DecodedJWT jwt;
     private BukkitTask checkerTask;
 
-    public ConsoleUser(DecodedJWT jwt, WsContext context) {
+    public TabbyUser(DecodedJWT jwt, WsContext context) {
         this.context = context;
         this.jwt = jwt;
         this.name = jwt.getSubject();
@@ -65,7 +65,7 @@ public class ConsoleUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ConsoleUser that = (ConsoleUser) o;
+        TabbyUser that = (TabbyUser) o;
         return context.equals(that.context);
     }
 

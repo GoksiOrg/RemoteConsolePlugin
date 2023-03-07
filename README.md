@@ -1,3 +1,3 @@
-# TeddyControl
+# TabbyControl
 
 Under development
