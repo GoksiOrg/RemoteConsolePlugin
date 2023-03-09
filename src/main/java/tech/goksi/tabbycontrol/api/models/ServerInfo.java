@@ -39,6 +39,8 @@ public class ServerInfo implements EventModel {
     @Expose
     @SerializedName("server_icon")
     private final String serverIcon;
+    @Expose
+    private final String motd;
 
     public ServerInfo() {
         if (SERVER_ICON == null) SERVER_ICON = getBase64(new File("server-icon.png"));
@@ -47,10 +49,11 @@ public class ServerInfo implements EventModel {
         onlinePlayers = Bukkit.getOnlinePlayers().size();
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
         MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
-        totalRam = (float) heapMemoryUsage.getMax() / 1024 / 1024;
+        totalRam = (float) heapMemoryUsage.getMax() / 1024 / 1024; // TODO: this seems to be off
         usedRam = (float) heapMemoryUsage.getUsed() / 1024 / 1024;
         OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         cpuUsage = operatingSystemMXBean.getProcessCpuLoad(); // TODO: hmm, dk about using com.sun
+        motd = Bukkit.getMotd();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored ")
@@ -92,14 +95,17 @@ public class ServerInfo implements EventModel {
         return serverIcon;
     }
 
+    public String getMotd() {
+        return motd;
+    }
+
     @Override
     public Map<String, Object> toEventMap() {
         return mapOf(
                 "total_ram", totalRam,
                 "used_ram", usedRam,
                 "cpu_usage", cpuUsage,
-                "online_players", onlinePlayers,
-                "max_players", maxPlayers
+                "online_players", onlinePlayers
         );
     }
 }
