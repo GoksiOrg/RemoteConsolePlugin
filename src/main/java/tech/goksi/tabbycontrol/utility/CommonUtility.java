@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class CommonUtility {
 
+    private CommonUtility() {
+    }
+
     public static Map<String, Object> mapOf(Object... objects) {
         Map<String, Object> map = new HashMap<>();
         if (objects.length % 2 != 0) throw new IllegalArgumentException("Must have even number of arguments");
