@@ -80,7 +80,7 @@ public class ServerInfo implements EventModel {
             inputStream.read(fileByte);
             result = Base64.getEncoder().encodeToString(fileByte);
         } catch (IOException exception) {
-            TabbyControl.getInstance().getLogger().log(Level.SEVERE, "Failed to get file input stream !", exception);
+            TabbyControl.getInstance().getLogger().log(Level.SEVERE, "Failed to get server icon input stream !", exception);
             return "";
         }
         return result;
@@ -93,7 +93,7 @@ public class ServerInfo implements EventModel {
                 Bukkit.getMotd(),
                 Bukkit.getOnlinePlayers().size(),
                 Bukkit.getMaxPlayers());
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(event); // let other motd plugins (if any) to mutate event before returning motd
         return event.getMotd();
     }
 
