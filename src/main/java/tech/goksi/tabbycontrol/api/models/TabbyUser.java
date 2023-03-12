@@ -61,6 +61,10 @@ public class TabbyUser {
         runCheck(); // make it wait 25 minutes again
     }
 
+    public boolean canRunCommands() {
+        return jwt.getClaim("send_commands").asBoolean();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

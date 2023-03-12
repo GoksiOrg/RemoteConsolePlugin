@@ -21,16 +21,16 @@ public class JWTParser {
                 .withIssuer(config.getString("ConsoleConfiguration.RemoteConsoleURL"))
                 .withClaim("server_id", config.getString("ConsoleConfiguration.ServerID"))
                 .withClaimPresence("sub")
-                .withClaimPresence("unique_id")
                 .withClaimPresence("jti")
                 .withClaimPresence("iat")
                 .withClaimPresence("exp")
+                .withClaimPresence("send_commands")
                 .build();
     }
 
     public static DecodedJWT parse(String jwt) throws JWTVerificationException {
         DecodedJWT result = jwtVerifier.verify(jwt);
-        if (!TabbyControl.getInstance().getTokenStore().isUniqueToken(result.getClaim("unique_id").asString()))
+        if (!TabbyControl.getInstance().getTokenStore().isUniqueToken(result.getClaim("jti").asString()))
             throw new JWTVerificationException("Provided id is not unique !");
         return result;
     }
