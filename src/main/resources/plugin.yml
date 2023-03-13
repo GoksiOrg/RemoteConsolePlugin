@@ -6,3 +6,7 @@ author: Goksi
 description: Spigot backend for minecraft remote console
 website: https://goksi.tech
 load: STARTUP
+commands:
+  tabby:
+    description: "Base command for TabbyControl"
+    usage: "tabby <subcommand>"

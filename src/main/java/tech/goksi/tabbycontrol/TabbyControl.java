@@ -11,6 +11,7 @@ import tech.goksi.tabbycontrol.api.Routes;
 import tech.goksi.tabbycontrol.api.exceptions.RestException;
 import tech.goksi.tabbycontrol.api.exceptions.WebSocketException;
 import tech.goksi.tabbycontrol.api.websocket.WebsocketHandler;
+import tech.goksi.tabbycontrol.commands.TabbyBase;
 import tech.goksi.tabbycontrol.events.ConsoleListener;
 import tech.goksi.tabbycontrol.helpers.GsonMapper;
 import tech.goksi.tabbycontrol.token.TokenStore;
@@ -33,6 +34,7 @@ public final class TabbyControl extends JavaPlugin {
         websocketHandler = new WebsocketHandler();
         Logger logger = (Logger) LogManager.getRootLogger();
         logger.addFilter(new ConsoleListener());
+        getCommand("tabby").setExecutor(new TabbyBase());
         VersionControlUtility.checkVersion();
     }
 
