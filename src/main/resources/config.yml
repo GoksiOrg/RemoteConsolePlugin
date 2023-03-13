@@ -3,5 +3,10 @@ ConsoleConfiguration:
   ID: ""
   Host: "0.0.0.0"
   Port: 0
-  RemoteConsoleURL: ""
+  Remote: ""
   Secret: ""
+# Plugin messages
+Messages:
+  OnlyConsole: "&4Sorry, but this command can only be executed via console !" #TODO: edit
+  WrongUsage: "&4That is wrong usage !"
+  SuccessSetup: "&2Setup was successful, restart your server now !"
