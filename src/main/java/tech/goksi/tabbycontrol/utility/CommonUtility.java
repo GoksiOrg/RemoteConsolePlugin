@@ -1,5 +1,9 @@
 package tech.goksi.tabbycontrol.utility;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import tech.goksi.tabbycontrol.TabbyControl;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,5 +20,10 @@ public class CommonUtility {
             map.put((String) objects[i], objects[i + 1]);
         }
         return map;
+    }
+
+    public static void sendMessage(CommandSender sender, String path) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                TabbyControl.getInstance().getConfig().getString("Messages." + path)));
     }
 }
