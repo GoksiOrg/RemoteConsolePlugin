@@ -13,6 +13,7 @@ import tech.goksi.tabbycontrol.helpers.WsAutomaticPing;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Supplier;
 
 public class WebsocketHandler {
     public static final Date STARTUP_TIME;
@@ -64,6 +65,11 @@ public class WebsocketHandler {
                 iterator.remove();
             }
         }
+    }
+
+    public void send(Supplier<GenericEvent> eventSupplier) {
+        if (observers.isEmpty()) return;
+        send(eventSupplier.get());
     }
 
     public void handleInternal(GenericEvent event) {

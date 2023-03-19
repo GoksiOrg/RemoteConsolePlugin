@@ -16,6 +16,6 @@ public class ResourceController {
 
     public static void initWebsocket(WebsocketHandler handler) {
         Bukkit.getScheduler().runTaskTimerAsynchronously(TabbyControl.getInstance(), () ->
-                handler.send(new ServerInfoEvent(new ServerInfo())), 0, ConversionUtility.secondsToTicks(10));
+                handler.send(() -> new ServerInfoEvent(new ServerInfo())), 0, ConversionUtility.secondsToTicks(10));
     }
 }
