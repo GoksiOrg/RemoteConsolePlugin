@@ -1,4 +1,4 @@
-package tech.goksi.tabbycontrol.commands;
+package tech.goksi.tabbycontrol.command;
 
 import org.bukkit.command.CommandSender;
 
