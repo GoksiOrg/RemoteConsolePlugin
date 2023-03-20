@@ -1,8 +1,8 @@
 package tech.goksi.tabbycontrol.api;
 
 import io.javalin.Javalin;
-import io.javalin.core.util.Header;
 import io.javalin.http.Context;
+import io.javalin.http.Header;
 import tech.goksi.tabbycontrol.TabbyControl;
 import tech.goksi.tabbycontrol.api.exceptions.UnauthorizedException;
 import tech.goksi.tabbycontrol.api.rest.controller.ResourceController;

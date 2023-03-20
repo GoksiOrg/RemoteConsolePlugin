@@ -11,7 +11,7 @@ import tech.goksi.tabbycontrol.api.Routes;
 import tech.goksi.tabbycontrol.api.exceptions.RestException;
 import tech.goksi.tabbycontrol.api.exceptions.WebSocketException;
 import tech.goksi.tabbycontrol.api.websocket.WebsocketHandler;
-import tech.goksi.tabbycontrol.commands.TabbyBase;
+import tech.goksi.tabbycontrol.command.TabbyBase;
 import tech.goksi.tabbycontrol.events.ConsoleListener;
 import tech.goksi.tabbycontrol.helpers.GsonMapper;
 import tech.goksi.tabbycontrol.token.TokenStore;
@@ -22,10 +22,12 @@ public final class TabbyControl extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
     private WebsocketHandler websocketHandler;
+    private static boolean SSL_ENABLED;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        SSL_ENABLED = getConfig().getBoolean("ConsoleConfiguration.SSL.Enabled");
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(TabbyControl.class.getClassLoader());
         setupJavalin();
@@ -65,11 +67,12 @@ public final class TabbyControl extends JavaPlugin {
             getLogger().warning("Webserver didn't start, awaiting configuration command...");
             return;
         }
+        /*TODO: this will not work, have to put ssl trough jetty*/
         javalinApp = Javalin.create(config -> {
             config.jsonMapper(new GsonMapper());
-            config.defaultContentType = ContentType.JSON;
+            config.http.defaultContentType = ContentType.JSON;
             config.showJavalinBanner = false;
-            config.server(() -> {
+            config.jetty.server(() -> {
                 QueuedThreadPool pool = new QueuedThreadPool();
                 pool.setName("TabbyPool");
                 return new Server(pool);
