@@ -5,6 +5,7 @@ prefix: Tabby
 author: Goksi
 description: Spigot backend for minecraft remote console
 website: https://goksi.tech
+api-version: 1.16
 load: STARTUP
 commands:
   tabby:

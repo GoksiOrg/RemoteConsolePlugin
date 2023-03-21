@@ -1,9 +1,11 @@
 package tech.goksi.tabbycontrol;
 
 import io.javalin.Javalin;
+import io.javalin.community.ssl.SSLPlugin;
 import io.javalin.http.ContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -62,12 +64,12 @@ public final class TabbyControl extends JavaPlugin {
     }
 
     private void setupJavalin() {
-        int port = getConfig().getInt("ConsoleConfiguration.Port");
+        int port = getConfig().getInt("ConsoleConfiguration.Port", 0);
+        String host = getConfig().getString("ConsoleConfiguration.Host", "0.0.0.0");
         if (port == 0) {
             getLogger().warning("Webserver didn't start, awaiting configuration command...");
             return;
         }
-        /*TODO: this will not work, have to put ssl trough jetty*/
         javalinApp = Javalin.create(config -> {
             config.jsonMapper(new GsonMapper());
             config.http.defaultContentType = ContentType.JSON;
@@ -77,7 +79,23 @@ public final class TabbyControl extends JavaPlugin {
                 pool.setName("TabbyPool");
                 return new Server(pool);
             });
-        }).start(getConfig().getString("ConsoleConfiguration.Host"), port);
+            /*TODO: kinda work, stopping the connection for some reason*/
+            if (SSL_ENABLED) {
+                ConfigurationSection sslSection = getConfig().getConfigurationSection("ConsoleConfiguration.SSL");
+                SSLPlugin sslPlugin = new SSLPlugin(sslConfig -> {
+                    sslConfig.insecure = false;
+                    sslConfig.securePort = port;
+                    sslConfig.host = host;
+                    sslConfig.redirect = true;
+                    sslConfig.http2 = true;
+                    String pluginDir = getDataFolder().getPath();
+                    sslConfig.pemFromPath(pluginDir + sslSection.getString("CertPath"),
+                            pluginDir + sslSection.getString("KeyPath"));
+                });
+
+                config.plugins.register(sslPlugin);
+            }
+        }).start(host, port);
         javalinApp.wsException(WebSocketException.class, (exception, ctx) -> ctx.send(exception));
         javalinApp.exception(RestException.class, ((exception, ctx) -> ctx.json(exception).status(exception.getStatus())));
         new Routes();

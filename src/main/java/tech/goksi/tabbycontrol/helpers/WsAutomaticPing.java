@@ -22,7 +22,7 @@ public class WsAutomaticPing {
     public void enableAutomaticPings(WsContext context) {
         disableAutomaticPings(context);
         BukkitTask task = scheduler.runTaskTimerAsynchronously(TabbyControl.getInstance(),
-                context::sendPing,
+                () -> context.sendPing(),
                 ConversionUtility.minutesToTicks(1),
                 ConversionUtility.minutesToTicks(1));
         pingTasks.put(context, task);
