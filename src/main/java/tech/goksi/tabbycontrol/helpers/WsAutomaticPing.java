@@ -10,6 +10,7 @@ import tech.goksi.tabbycontrol.utility.ConversionUtility;
 import java.util.HashMap;
 import java.util.Map;
 
+/*TODO: this is probably bad*/
 public class WsAutomaticPing {
     private final Map<WsContext, BukkitTask> pingTasks;
     private final BukkitScheduler scheduler;
