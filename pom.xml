@@ -72,6 +72,10 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>TabbyControl</finalName>
                             <outputDirectory>${jarLocation}</outputDirectory>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -134,13 +138,6 @@
             <groupId>io.javalin.community.ssl</groupId>
             <artifactId>ssl-plugin</artifactId>
             <version>5.4.2</version>
-        </dependency>
-
-        <!--JETTY THINGY FOR HTTP2 SSL-->
-        <dependency>
-            <groupId>org.eclipse.jetty.http2</groupId>
-            <artifactId>http2-hpack</artifactId>
-            <version>11.0.14</version>
         </dependency>
 
         <!--LOG4J PROVIDED IN SPIGOT-->

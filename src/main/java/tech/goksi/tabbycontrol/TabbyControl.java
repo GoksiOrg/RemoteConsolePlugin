@@ -17,10 +17,7 @@ import tech.goksi.tabbycontrol.command.TabbyBase;
 import tech.goksi.tabbycontrol.events.ConsoleListener;
 import tech.goksi.tabbycontrol.helpers.GsonMapper;
 import tech.goksi.tabbycontrol.token.TokenStore;
-import tech.goksi.tabbycontrol.utility.ReflectionUtility;
 import tech.goksi.tabbycontrol.utility.versioncontrol.VersionControlUtility;
-
-import java.util.logging.Level;
 
 /*TODO: cors, ssl*/
 public final class TabbyControl extends JavaPlugin {
@@ -88,7 +85,7 @@ public final class TabbyControl extends JavaPlugin {
                     sslConfig.insecure = false;
                     sslConfig.securePort = port;
                     sslConfig.host = host;
-                    sslConfig.http2 = true; /*TODO: ova smradina jebe*/
+                    sslConfig.http2 = true;
                     String pluginDir = getDataFolder().getPath();
                     sslConfig.pemFromPath(pluginDir + sslSection.getString("CertPath"),
                             pluginDir + sslSection.getString("KeyPath"));
@@ -97,13 +94,6 @@ public final class TabbyControl extends JavaPlugin {
                 config.plugins.register(sslPlugin);
             }
         }).start(host, port);
-        if (SSL_ENABLED) {
-            try {
-                ReflectionUtility.injectHpackPreEncoder();
-            } catch (Exception exception) {
-                getLogger().log(Level.SEVERE, "Failed to inject http2 pre encoder, disable SSL and use reverse proxy instead !", exception);
-            }
-        }
         javalinApp.wsException(WebSocketException.class, (exception, ctx) -> ctx.send(exception));
         javalinApp.exception(RestException.class, ((exception, ctx) -> ctx.json(exception).status(exception.getStatus())));
         new Routes();
