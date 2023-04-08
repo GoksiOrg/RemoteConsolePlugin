@@ -3,25 +3,27 @@ package tech.goksi.tabbycontrol.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 import tech.goksi.tabbycontrol.command.subcommands.TabbySetup;
 import tech.goksi.tabbycontrol.command.subcommands.TabbyStop;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static tech.goksi.tabbycontrol.utility.CommonUtility.sendMessage;
 
 public class TabbyBase implements TabExecutor {
     private final Map<String, CommandHandler> handlerMap;
+    private final Set<String> subcommands;
 
     public TabbyBase() {
         handlerMap = new HashMap<>();
         setupHandlers();
+        subcommands = handlerMap.keySet();
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         /*TODO: check args length*/
         CommandHandler handler = handlerMap.get(args[0]);
         if (handler == null) {
@@ -31,8 +33,12 @@ public class TabbyBase implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return null;
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+            StringUtil.copyPartialMatches(args[0], subcommands, completions);
+        }
+        return completions;
     }
 
     private void setupHandlers() {
