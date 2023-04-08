@@ -30,6 +30,6 @@ public class TabbySetup implements CommandHandler {
         TabbyControl.getInstance().saveConfig();
         sendMessage(sender, "SuccessSetup");
         Bukkit.getScheduler()
-                .runTaskLater(TabbyControl.getInstance(), Bukkit.spigot()::restart, ConversionUtility.secondsToTicks(3));
+                .runTaskLater(TabbyControl.getInstance(), Bukkit.spigot()::restart, ConversionUtility.secondsToTicks(10));
     }
 }

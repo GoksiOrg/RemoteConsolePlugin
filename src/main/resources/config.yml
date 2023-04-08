@@ -16,5 +16,5 @@ Messages:
   OnlyConsole: "&4Sorry, but this command can only be executed via console !" #TODO: edit
   OnlyOP: "&4Sorry, but this command can only be executed if you are operator !"
   WrongUsage: "&4That is wrong usage !"
-  SuccessSetup: "&2Setup was successful, restarting your server in 3 seconds... !"
+  SuccessSetup: "&2Setup was successful, restarting your server in 10 seconds... !"
   SuccessStop: "&2Tabby webserver successfully stopped !"
