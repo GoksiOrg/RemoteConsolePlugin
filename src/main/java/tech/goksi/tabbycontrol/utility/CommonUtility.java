@@ -23,7 +23,10 @@ public class CommonUtility {
     }
 
     public static void sendMessage(CommandSender sender, String path) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                TabbyControl.getInstance().getConfig().getString("Messages." + path)));
+        sender.sendMessage(colorize(TabbyControl.getInstance().getConfig().getString("Messages." + path)));
+    }
+
+    public static String colorize(String text) {
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 }
