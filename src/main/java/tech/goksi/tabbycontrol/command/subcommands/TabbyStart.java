@@ -8,7 +8,8 @@ import tech.goksi.tabbycontrol.command.CommandHandler;
 
 import static tech.goksi.tabbycontrol.utility.CommonUtility.sendMessage;
 
-public class TabbyStop implements CommandHandler {
+public class TabbyStart implements CommandHandler {
+
     @Override
     public void handle(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
@@ -18,7 +19,7 @@ public class TabbyStop implements CommandHandler {
                 return;
             }
         } else if (!(sender instanceof ConsoleCommandSender)) return;
-        TabbyControl.getInstance().shutdownWebserver();
-        sendMessage(sender, "SuccessStop");
+        TabbyControl.getInstance().startWebserver();
+        sendMessage(sender, "SuccessStart");
     }
 }

@@ -5,11 +5,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import tech.goksi.tabbycontrol.TabbyControl;
 import tech.goksi.tabbycontrol.command.subcommands.TabbySetup;
+import tech.goksi.tabbycontrol.command.subcommands.TabbyStart;
 import tech.goksi.tabbycontrol.command.subcommands.TabbyStop;
 
 import java.util.*;
 
+import static tech.goksi.tabbycontrol.utility.CommonUtility.colorize;
 import static tech.goksi.tabbycontrol.utility.CommonUtility.sendMessage;
 
 public class TabbyBase implements TabExecutor {
@@ -24,8 +27,12 @@ public class TabbyBase implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        /*TODO: check args length*/
-        CommandHandler handler = handlerMap.get(args[0]);
+        if (args.length != 1) {
+            /*TODO: Format*/
+            sender.sendMessage(colorize(String.format("TabbyControl Version: %s", TabbyControl.getInstance().getDescription().getVersion())));
+            return true;
+        }
+        CommandHandler handler = handlerMap.get(args[0].toLowerCase());
         if (handler == null) {
             sendMessage(sender, "UnknownSubcommand");
         } else handler.handle(sender, args);
@@ -44,8 +51,6 @@ public class TabbyBase implements TabExecutor {
     private void setupHandlers() {
         handlerMap.put("setup", new TabbySetup());
         handlerMap.put("stop", new TabbyStop());
-        handlerMap.put("start", (sender, args) -> {
-
-        });
+        handlerMap.put("start", new TabbyStart());
     }
 }
