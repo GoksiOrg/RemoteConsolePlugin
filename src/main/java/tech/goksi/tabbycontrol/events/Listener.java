@@ -2,6 +2,7 @@ package tech.goksi.tabbycontrol.events;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.bukkit.Bukkit;
 import tech.goksi.tabbycontrol.TabbyControl;
 import tech.goksi.tabbycontrol.api.exceptions.WsTokenException;
 import tech.goksi.tabbycontrol.api.models.TabbyUser;
@@ -38,6 +39,12 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onCommandSendEvent(CommandReceiveEvent event) {
-        System.out.println(event.getCommand());
+        TabbyUser tabbyUser = TabbyControl.getInstance().getWebsocketHandler()
+                .getObserver(event.getContext());
+        if (!tabbyUser.canRunCommands()) {
+            // some logic
+            return;
+        }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), event.getCommand());
     }
 }
