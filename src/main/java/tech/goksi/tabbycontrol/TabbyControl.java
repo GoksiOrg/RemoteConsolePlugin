@@ -19,7 +19,7 @@ import tech.goksi.tabbycontrol.helpers.GsonMapper;
 import tech.goksi.tabbycontrol.token.TokenStore;
 import tech.goksi.tabbycontrol.utility.versioncontrol.VersionControlUtility;
 
-/*TODO: cors, ssl*/
+/*TODO: cors*/
 public final class TabbyControl extends JavaPlugin {
     private TokenStore tokenStore;
     private Javalin javalinApp;
@@ -32,7 +32,7 @@ public final class TabbyControl extends JavaPlugin {
         SSL_ENABLED = getConfig().getBoolean("ConsoleConfiguration.SSL.Enabled");
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(TabbyControl.class.getClassLoader());
-        setupJavalin();
+        startWebserver();
         Thread.currentThread().setContextClassLoader(classLoader);
         tokenStore = new TokenStore();
         websocketHandler = new WebsocketHandler();
@@ -55,22 +55,18 @@ public final class TabbyControl extends JavaPlugin {
         return tokenStore;
     }
 
-    public Javalin getJavalinApp() {
-        return javalinApp;
-    }
-
     public WebsocketHandler getWebsocketHandler() {
         return websocketHandler;
     }
 
-    private void setupJavalin() {
+    private Javalin createJavalin() {
         int port = getConfig().getInt("ConsoleConfiguration.Port", 0);
         String host = getConfig().getString("ConsoleConfiguration.Host", "0.0.0.0");
         if (port == 0) {
             getLogger().warning("Webserver didn't start, awaiting configuration command...");
-            return;
+            return null;
         }
-        javalinApp = Javalin.create(config -> {
+        Javalin javalinApp = Javalin.create(config -> {
             config.jsonMapper(new GsonMapper());
             config.http.defaultContentType = ContentType.JSON;
             config.showJavalinBanner = false;
@@ -96,6 +92,18 @@ public final class TabbyControl extends JavaPlugin {
         }).start(host, port);
         javalinApp.wsException(WebSocketException.class, (exception, ctx) -> ctx.send(exception));
         javalinApp.exception(RestException.class, ((exception, ctx) -> ctx.json(exception).status(exception.getStatus())));
-        new Routes();
+        new Routes(javalinApp);
+        return javalinApp;
+    }
+
+    public void shutdownWebserver() {
+        if (javalinApp == null) return;
+        javalinApp.close();
+        javalinApp = null;
+    }
+
+    public void startWebserver() {
+        if (javalinApp != null) return;
+        javalinApp = createJavalin();
     }
 }

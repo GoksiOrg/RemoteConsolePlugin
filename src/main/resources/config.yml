@@ -18,3 +18,4 @@ Messages:
   WrongUsage: "&4That is wrong usage !"
   SuccessSetup: "&2Setup was successful, restarting your server in 10 seconds... !"
   SuccessStop: "&2Tabby webserver successfully stopped !"
+  SuccessStart: "&2Tabby webserver successfully started !"

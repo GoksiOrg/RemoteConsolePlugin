@@ -11,8 +11,7 @@ import tech.goksi.tabbycontrol.api.websocket.controller.WebsocketController;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Routes {
-    public Routes() {
-        Javalin app = TabbyControl.getInstance().getJavalinApp();
+    public Routes(Javalin app) {
 
         app.before(context -> {
             String token = extractToken(context);
